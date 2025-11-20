@@ -1,13 +1,12 @@
 <h1 align="center">
  <br>
-  <a href="https://github.com/sonujana26"><img src="https://cdn.discordapp.com/avatars/1144179659735572640/7af45040da87480e78a2424691753f4d.png?size=128"></a>
+  <a href="https://github.com/Vibhanshusalve"><img src="https://cdn.discordapp.com/avatars/1144179659735572640/7af45040da87480e78a2424691753f4d.png?size=128"></a>
   <br>
   Tempest the Ultimate Discord Bot
   <br>
 </h1>
-I've decided to make this repo public again!!
 
-<h3 align=center>An advanced multipurpose bot built with 400+ commands & 15 categories.</h3>
+<h3 align=center>An advanced multipurpose Discord bot built with 400+ commands & 15+ categories.</h3>
 
 <div align=center>
 
@@ -70,38 +69,93 @@ Tempest is a powerful, easy-to-use Discord bot designed to enhance your server e
 
 1. First, clone the repository:  
    ```bash
-   git clone https://github.com/sonujana26/olympus-bot
+   git clone https://github.com/Vibhanshusalve/tempest.git
+   cd tempest
    ```
-2. After cloning, run the bot:
+
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. After installation, run the bot:
    ```bash
    python main.py
    ```
+
 ## Setting Up
 
-1. Rename `example.env` to `.env` and replace the bot token value:
-   ```env
-   TOKEN=YOUR_BOT_TOKEN_HERE
-   ```
-   • Replace the Owner ID(s) [here](https://github.com/sonujana26/olympus-bot/blob/main/utils/config.py#L7) (in `utils/config.py`).
+1. **Bot Token & Owner ID:**
+   - Create a `.env` file in the root directory and add your bot token:
+     ```env
+     TOKEN=YOUR_BOT_TOKEN_HERE
+     ```
+   - Update the Owner ID(s) in `utils/config.py` (line 7):
+     ```python
+     OWNER_IDS = [YOUR_USER_ID_HERE]
+     ```
+
 2. **Prefix:**
-   Default Prefix: `$`
-   > You can change prefix **[here](https://github.com/sonujana26/olympus-bot/blob/main/utils/Tools.py#L84)**.
-   
-4. **For Music:**  
-   A public Lavalink is used, get a list of more public lavalinks available [here](https://lavalinks-list.vercel.app/). For better audio quality, it is recommended to set up your private Lavalink v4.  
-   > Update your Lavalink URL, password, and other configurations [by clicking here](https://github.com/sonujana26/olympus-bot/blob/main/cogs/commands/music.py#L339).
-- If you are using your private lavalink & have youtube plugin enabled/working but the Spotify plugin is not working, than you can Uncomment Lines `(445 - 452)` in `(cogs/commands/music.py)`, this will convert a Spotify track to YouTube Track.
+   - Default Prefix: `~`
+   - You can change the default prefix in `utils/Tools.py` (line 84)
+   - Server admins can change the prefix per server using the `prefix` command
 
-5. **Logging & Notifications:**  
-   - **Command Logs:** Get a channel webhook URL and update it [here](https://github.com/sonujana26/olympus-bot/blob/main/main.py#L75) (in `main.py`).  
-   - **Guild Joins:** Add the channel ID [here](https://github.com/sonujana26/olympus-bot/blob/main/cogs/events/on_guild.py#L25) (in `cogs/events/on_guild.py`).  
-   - **Guild Leaves:** Add the channel ID [here](https://github.com/sonujana26/olympus-bot/blob/main/cogs/events/on_guild.py#L109) (in `cogs/events/on_guild.py`).
+3. **For Music (Optional):**  
+   - A public Lavalink is used by default
+   - Get a list of public lavalinks available [here](https://lavalinks-list.vercel.app/)
+   - For better audio quality, it is recommended to set up your private Lavalink v4
+   - Update your Lavalink URL, password, and other configurations in `cogs/commands/music.py.disabled` (if you enable music)
+   - **Note:** Music commands are currently disabled. To enable, rename `music.py.disabled` to `music.py` and configure Lavalink settings.
 
-6. **No Prefix Commands:**  
+4. **Logging & Notifications:**  
+   - **Command Logs:** Update the channel ID in `main.py` (line 74):
+     ```python
+     command_logs_channel_id = YOUR_CHANNEL_ID_HERE
+     ```
+   - **Guild Joins:** Update the channel ID in `cogs/events/on_guild.py` (line 25):
+     ```python
+     ch = YOUR_CHANNEL_ID_HERE
+     ```
+   - **Guild Leaves:** Update the channel ID in `cogs/events/on_guild.py` (line 109):
+     ```python
+     ch = YOUR_CHANNEL_ID_HERE
+     ```
+
+5. **No Prefix Commands:**  
    There are several `np` commands like `np add`, `np remove`, `auto np add`, `auto np remove`, `auto np role`, etc. Check and modify them as needed in `cogs/commands/np.py`.
 
-7. **Emojis & Colors:**  
-   Unfortunately, there is no centralized setup for emojis & embed colors. You need to manually update emojis in all files where they are used.
+6. **Emojis:**  
+   All emojis have been updated to use Unicode emojis for better compatibility. No custom Discord emoji IDs are required.
+
+## Key Features
+
+### Security & Protection
+- **Anti-Nuke System**: Comprehensive protection against malicious admin actions
+- **Auto-Moderation**: Advanced spam, caps, link, invite, and mention protection
+- **Emergency System**: Server restoration and emergency lockdown features
+
+### Moderation
+- **Full Moderation Suite**: Ban, kick, mute, warn, timeout, and more
+- **Role Management**: Advanced role assignment and management
+- **Channel Control**: Lock, unlock, hide, unhide, and channel management
+
+### Entertainment
+- **Games**: Chess, Battleship, Connect Four, Tic-Tac-Toe, Wordle, and more
+- **Fun Commands**: Memes, images, and entertainment features
+- **AI Image Generation**: Create stunning images using AI (Prodia integration)
+
+### Server Management
+- **Welcome System**: Customizable welcome messages with placeholders
+- **Auto-Role**: Automatic role assignment on join
+- **Custom Roles**: Advanced role management system
+- **Voice Control**: Voice channel management utilities
+
+### Utilities
+- **Statistics**: Server and bot statistics tracking
+- **AFK System**: Away from keyboard status
+- **Giveaways**: Easy giveaway creation and management
+- **Timers**: Set and manage timers
+- **No-Prefix Commands**: Special users can use commands without prefix
 
 ## License
 This source code is protected under a custom Tempest License.
@@ -115,9 +169,28 @@ To obtain a license or permission, [join our support server](https://discord.gg/
 ## Donate
 Coming Soon
 
+## Requirements
+
+- Python 3.12+
+- discord.py 2.4.0+
+- All dependencies listed in `requirements.txt`
+- Discord Bot Token
+- (Optional) Lavalink server for music features
+- (Optional) Prodia API key for AI image generation
+
+## Support
+
+For support, questions, or to report issues:
+- Join our [Discord Server](https://discord.gg/odx)
+- Open an issue on [GitHub](https://github.com/Vibhanshusalve/tempest/issues)
+
 ## Credits
-**Author:**  
+
+**Original Author:**  
 Sonu Jana - *Head Developer* - **[GitHub](https://github.com/sonujana26)**
+
+**Repository:**  
+Maintained by [Vibhanshusalve](https://github.com/Vibhanshusalve)
 
 **Team:**
 <div align="center">
