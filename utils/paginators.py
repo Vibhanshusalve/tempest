@@ -28,7 +28,7 @@ class FieldPagePaginator:
             total_pages = len(self.entries) // self.per_page + (1 if len(self.entries) % self.per_page else 0)
             if total_pages > 1:
                 embed.set_footer(
-                    text=f'• Page {i // self.per_page + 1}/{total_pages} | Olympus Development™',
+                    text=f'• Page {i // self.per_page + 1}/{total_pages} | Tempest Federation™',
                     icon_url="https://cdn.discordapp.com/avatars/1144179659735572640/a_f061e6472786781e23bac32fa8d0a667.png?width=115&height=115"
                 )
             pages_list.append(embed)
@@ -62,7 +62,7 @@ class DescriptionEmbedPaginator:
             total_pages = len(self.entries) // self.per_page + (1 if len(self.entries) % self.per_page else 0)
             if total_pages > 1:
                 embed.set_footer(
-                    text=f'• Page {i // self.per_page + 1}/{total_pages} | Olympus Development™',
+                    text=f'• Page {i // self.per_page + 1}/{total_pages} | Tempest Federation™',
                     icon_url="https://cdn.discordapp.com/avatars/1144179659735572640/a_f061e6472786781e23bac32fa8d0a667.png?width=115&height=115"
                 )
             pages_list.append(embed)

@@ -2,7 +2,7 @@
  <br>
   <a href="https://github.com/sonujana26"><img src="https://cdn.discordapp.com/avatars/1144179659735572640/7af45040da87480e78a2424691753f4d.png?size=128"></a>
   <br>
-  Olympus the Ultimate Discord Bot
+  Tempest the Ultimate Discord Bot
   <br>
 </h1>
 I've decided to make this repo public again!!
@@ -42,11 +42,11 @@ I've decided to make this repo public again!!
   <a href="#credits">Credits</a>
 </p>
 
-## 🔗 [Invite the Public Bot (Olympus) by clicking here!](https://discord.com/oauth2/authorize?client_id=1144179659735572640&permissions=2113268958&scope=bot)
+## 🔗 [Invite the Public Bot (Tempest) by clicking here!](https://discord.com/oauth2/authorize?client_id=1144179659735572640&permissions=2113268958&scope=bot)
 
 ## About
 
-Olympus is a powerful, easy-to-use Discord bot designed to enhance your server experience with an extensive suite of features. Built with advanced security, automoderation, moderation, music systems, welcoming features, and more at its core, Olympus ensures your community stays safe and well-managed, giving you peace of mind and control.
+Tempest is a powerful, easy-to-use Discord bot designed to enhance your server experience with an extensive suite of features. Built with advanced security, automoderation, moderation, music systems, welcoming features, and more at its core, Tempest ensures your community stays safe and well-managed, giving you peace of mind and control.
 
 ## Features
 
@@ -104,7 +104,7 @@ Olympus is a powerful, easy-to-use Discord bot designed to enhance your server e
    Unfortunately, there is no centralized setup for emojis & embed colors. You need to manually update emojis in all files where they are used.
 
 ## License
-This source code is protected under a custom Olympus License.
+This source code is protected under a custom Tempest License.
 
 > 🚫 No commercial use  
 > 🚫 No redistribution  

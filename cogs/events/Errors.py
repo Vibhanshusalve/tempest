@@ -3,11 +3,11 @@ import json
 import aiosqlite
 from discord.ext import commands
 from utils.config import serverLink
-from core import Olympus, Cog, Context
+from core import Tempest, Cog, Context
 from utils.Tools import get_ignore_data
 
 class Errors(Cog):
-  def __init__(self, client: Olympus):
+  def __init__(self, client: Tempest):
     self.client = client
 
   @commands.Cog.listener()
@@ -94,7 +94,7 @@ class Errors(Cog):
 
     if isinstance(error, commands.BotMissingPermissions):
       missing = ", ".join(error.missing_permissions)
-      await ctx.reply(f'<:Denied:1294218790082711553> I need **{missing}** Permission to run the **{ctx.command.qualified_name}** command!', delete_after=7)
+      await ctx.reply(f'🚫 I need **{missing}** Permission to run the **{ctx.command.qualified_name}** command!', delete_after=7)
       return
 
     if isinstance(error, discord.HTTPException):

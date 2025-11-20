@@ -1,5 +1,5 @@
 from discord.ext import commands
-from core import Olympus, Cog
+from core import Tempest, Cog
 import discord
 import logging
 from discord.ui import View, Button, Select
@@ -10,10 +10,10 @@ logging.basicConfig(
     datefmt="%H:%M:%S",
 )
 
-client = Olympus()
+client = Tempest()
 
 class Guild(Cog):
-    def __init__(self, client: Olympus):
+    def __init__(self, client: Tempest):
         self.client = client
 
     @client.event
@@ -36,7 +36,7 @@ class Guild(Cog):
 
             embed.add_field(
                 name="**__About__**",
-                value=f"**Name : ** {guild.name}\n**ID :** {guild.id}\n**Owner <:olympus_owner:1228227536207740989> :** {guild.owner} (<@{guild.owner_id}>)\n**Created At : **{guild.created_at.month}/{guild.created_at.day}/{guild.created_at.year}\n**Members :** {len(guild.members)}",
+                value=f"**Name : ** {guild.name}\n**ID :** {guild.id}\n**Owner 👑 :** {guild.owner} (<@{guild.owner_id}>)\n**Created At : **{guild.created_at.month}/{guild.created_at.day}/{guild.created_at.year}\n**Members :** {len(guild.members)}",
                 inline=False
             )
             embed.add_field(
@@ -46,7 +46,7 @@ class Guild(Cog):
             )
             embed.add_field(
                 name="**__Members__**",
-                value=f"""<:olympus_users:1226064812157571163> Members : {len(guild.members)}\n<:olympus_friend:1228229690376982549> Humans : {len(list(filter(lambda m: not m.bot, guild.members)))}\n<:olympus_bot:1227873668466741320> Bots : {len(list(filter(lambda m: m.bot, guild.members)))}
+                value=f"""👥 Members : {len(guild.members)}\n👤 Humans : {len(list(filter(lambda m: not m.bot, guild.members)))}\n🤖 Bots : {len(list(filter(lambda m: m.bot, guild.members)))}
                 """,
                 inline=False
             )
@@ -72,10 +72,10 @@ Threads : {len(guild.threads)}
             if not guild.chunked:
                 await guild.chunk()
 
-            embed = discord.Embed(description="<:red_arrow:1247226071783440404> Prefix For This Server is `$`\n<:red_arrow:1247226071783440404> Get Started with `$help`\n<:red_arrow:1247226071783440404> For detailed guides, FAQ & information, visit our **[Support Server](https://discord.gg/odx)**",
+            embed = discord.Embed(description="• Prefix For This Server is `$`\n• Get Started with `$help`\n• For detailed guides, FAQ & information, visit our **[Support Server](https://discord.gg/odx)**",
     color=0xff0000)
             embed.set_author(name="Thanks for adding me!", icon_url=guild.me.display_avatar.url)
-            embed.set_footer(text="Powered by Olympus Development™", icon_url="https://cdn.discordapp.com/icons/699587669059174461/f689b4366447d5a23eda8d0ec749c1ba.png")
+            embed.set_footer(text="Powered by Tempest Federation™", icon_url="https://cdn.discordapp.com/icons/699587669059174461/f689b4366447d5a23eda8d0ec749c1ba.png")
             if guild.icon:
                 embed.set_thumbnail(url=guild.icon.url)
 
@@ -120,7 +120,7 @@ Threads : {len(guild.threads)}
 
             embed.add_field(
                 name="**__About__**",
-                value=f"**Name : ** {guild.name}\n**ID :** {guild.id}\n**Owner <:olympus_owner:1228227536207740989> :** {guild.owner} (<@{guild.owner_id}>)\n**Created At : **{guild.created_at.month}/{guild.created_at.day}/{guild.created_at.year}\n**Members :** {len(guild.members)}",
+                value=f"**Name : ** {guild.name}\n**ID :** {guild.id}\n**Owner 👑 :** {guild.owner} (<@{guild.owner_id}>)\n**Created At : **{guild.created_at.month}/{guild.created_at.day}/{guild.created_at.year}\n**Members :** {len(guild.members)}",
                 inline=False
             )
             embed.add_field(

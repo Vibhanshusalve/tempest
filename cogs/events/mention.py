@@ -9,7 +9,7 @@ class Mention(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.color = 0xdc143c
-        self.bot_name = "Olympus"
+        self.bot_name = "Tempest"
 
     async def is_blacklisted(self, message):
         async with aiosqlite.connect("db/block.db") as db:
@@ -52,7 +52,7 @@ class Mention(commands.Cog):
                     description=f"Hey {message.author.mention},\nPrefix For This Server is `{prefix}`\nServer ID: {message.guild.id}\n\nType `{prefix}help` for more information."
                 )
                 embed.set_thumbnail(url=self.bot.user.avatar.url)
-                embed.set_footer(text="Powered by Olympus Development™", icon_url=self.bot.user.avatar.url)
+                embed.set_footer(text="Powered by Tempest Federation™", icon_url=self.bot.user.avatar.url)
 
                 buttons = [
                     discord.ui.Button(label="Invite", style=discord.ButtonStyle.link, url="https://discord.com/oauth2/authorize?client_id=1144179659735572640&permissions=2113268958&scope=bot"),

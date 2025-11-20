@@ -107,7 +107,7 @@ class AntiSpam(commands.Cog):
                     action_taken = "Banned"
 
                 simple_embed = discord.Embed(title="Automod Anti-Spam", color=0xff0000)
-                simple_embed.description = f"<:olympus_tick:1227866641027698792> | {user.mention} has been successfully **{action_taken}** for **Spamming.**"
+                simple_embed.description = f"✅ | {user.mention} has been successfully **{action_taken}** for **Spamming.**"
                 simple_embed.set_thumbnail(url="https://cdn.discordapp.com/emojis/1294125691587006525.png")
                 simple_embed.set_footer(text="Use the “automod logging” command to get automod logs if it is not enabled.", icon_url=self.bot.user.avatar.url)
                 await channel.send(embed=simple_embed, delete_after=30)

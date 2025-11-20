@@ -13,7 +13,7 @@ from discord.ext import commands
 
 from core import Context
 from core.Cog import Cog
-from core.Olympus import Olympus
+from core.Tempest import Tempest
 from utils.Tools import *
 from utils.config import *
 
@@ -29,7 +29,7 @@ os.environ["JISHAKU_NO_UNDERSCORE"] = "True"
 os.environ["JISHAKU_FORCE_PAGINATOR"] = "True"
 
 
-client = Olympus()
+client = Tempest()
 tree = client.tree
 TOKEN = os.getenv("TOKEN")
 
@@ -84,24 +84,24 @@ async def on_command_completion(context: commands.Context) -> None:
                     icon_url=avatar_url
                 )
                 embed.set_thumbnail(url=avatar_url)
-                embed.add_field(name="<:right:1244660443323306118> Command Name :",
+                embed.add_field(name="➡️ Command Name :",
                                 value=f"{executed_command}",
                                 inline=False)
                 embed.add_field(
-                    name="<:right:1244660443323306118> Command Executed By :",
+                    name="➡️ Command Executed By :",
                     value=f"{context.author} | ID: [{context.author.id}](https://discord.com/users/{context.author.id})",
                     inline=False)
                 embed.add_field(
-                    name="<:right:1244660443323306118> Command Executed In :",
+                    name="➡️ Command Executed In :",
                     value=f"{context.guild.name} | ID: [{context.guild.id}](https://discord.com/guilds/{context.guild.id})",
                     inline=False)
                 embed.add_field(
-                    name="<:right:1244660443323306118> Command Executed In Channel :",
+                    name="➡️ Command Executed In Channel :",
                     value=f"{context.channel.name} | ID: [{context.channel.id}](https://discord.com/channels/{context.guild.id}/{context.channel.id})",
                     inline=False)
 
                 embed.timestamp = discord.utils.utcnow()
-                embed.set_footer(text="Olympus Development™ ❤️",
+                embed.set_footer(text="Tempest Federation™ ❤️",
                                  icon_url=client.user.display_avatar.url)
 
                 
@@ -118,14 +118,14 @@ async def on_command_completion(context: commands.Context) -> None:
                     icon_url=avatar_url
                 )
                 embed1.set_thumbnail(url=avatar_url)
-                embed1.add_field(name="<:right:1244660443323306118> Command Name :",
+                embed1.add_field(name="➡️ Command Name :",
                                  value=f"{executed_command}",
                                  inline=False)
                 embed1.add_field(
-                    name="<:right:1244660443323306118> Command Executed By :",
+                    name="➡️ Command Executed By :",
                     value=f"{context.author} | ID: [{context.author.id}](https://discord.com/users/{context.author.id})",
                     inline=False)
-                embed1.set_footer(text=f"Powered by Olympus Development™",
+                embed1.set_footer(text=f"Powered by Tempest Federation™",
                                   icon_url=client.user.display_avatar.url)
                 print("Sending embed1 to webhook...")
                 await webhook.send(embed=embed1)
@@ -143,7 +143,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return f"© Olympus Development 2024"
+    return f"© Tempest Federation 2024"
 
 
 def run():

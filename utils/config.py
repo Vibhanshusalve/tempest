@@ -1,9 +1,9 @@
 import os
 
 TOKEN = os.environ.get("TOKEN")
-NAME = "Olympus"
+NAME = "Tempest"
 server = "https://discord.com/invite/odx"
 ch = "https://discord.com/channels/699587669059174461/1271825678710476911"
-OWNER_IDS = [213347081799073793, 1070619070468214824]
-BotName = "Olympus"
+OWNER_IDS = [782228854616883200, 1410329062118789201]
+BotName = "Tempest"
 serverLink = "https://discord.com/invite/odx"

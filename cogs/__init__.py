@@ -1,12 +1,12 @@
 from __future__ import annotations
-from core import Olympus
+from core import Tempest
 from colorama import Fore, Style, init
 
 
 #----------Commands---------#
 from .commands.help import Help
 from .commands.general import General
-from .commands.music import Music
+# from .commands.music import Music
 from .commands.automod import Automod
 from .commands.welcome import Welcomer
 from .commands.fun import Fun
@@ -62,19 +62,19 @@ from .events.autoreact import AutoReactListener
 #from .events.topgg import TopGG
 
 ########-------HELP-------########
-from .olympus.antinuke import _antinuke
-from .olympus.extra import _extra
-from .olympus.general import _general
-from .olympus.automod import _automod 
-from .olympus.moderation import _moderation
-from .olympus.music import _music
-from .olympus.fun import _fun
-from .olympus.games import _games
-from .olympus.ignore import _ignore
-from .olympus.server import _server
-from .olympus.voice import _voice 
-from .olympus.welcome import _welcome 
-from .olympus.giveaway import _giveaway
+from .tempest.antinuke import _antinuke
+from .tempest.extra import _extra
+from .tempest.general import _general
+from .tempest.automod import _automod 
+from .tempest.moderation import _moderation
+from .tempest.music import _music
+from .tempest.fun import _fun
+from .tempest.games import _games
+from .tempest.ignore import _ignore
+from .tempest.server import _server
+from .tempest.voice import _voice 
+from .tempest.welcome import _welcome 
+from .tempest.giveaway import _giveaway
 
 
 #########ANTINUKE#########
@@ -131,7 +131,7 @@ from .moderation.topcheck import TopCheck
 from .moderation.snipe import Snipe
 
 
-async def setup(bot: Olympus):
+async def setup(bot: Tempest):
   cogs_to_load = [
         Help, General, Moderation, Automod, Welcomer, Fun, Games, Extra,
         Voice, Owner, Customrole, afk, Embed, Media, Ignore,
@@ -143,13 +143,13 @@ async def setup(bot: Olympus):
         AntiChannelCreate, AntiChannelDelete, AntiChannelUpdate, AntiEveryone, AntiGuildUpdate,
         AntiIntegration, AntiKick, AntiPrune, AntiRoleCreate, AntiRoleDelete,
         AntiRoleUpdate, AntiWebhookUpdate, AntiWebhookCreate,
-        AntiWebhookDelete, AntiSpam, AntiCaps, AntiLink, AntiInvite, AntiMassMention, Music, Stats, Emergency, Status, NoPrefix, FilterCog, AutoReaction, AutoReactListener, Ban, Unban, Mute, Unmute, Lock, Unlock, Hide, Unhide, Kick, Warn, Role, Message, Moderation, TopCheck, Snipe, Global
+        AntiWebhookDelete, AntiSpam, AntiCaps, AntiLink, AntiInvite, AntiMassMention, Stats, Emergency, Status, NoPrefix, FilterCog, AutoReaction, AutoReactListener, Ban, Unban, Mute, Unmute, Lock, Unlock, Hide, Unhide, Kick, Warn, Role, Message, Moderation, TopCheck, Snipe, Global
     ]
 
 
   await bot.add_cog(Help(bot))
   await bot.add_cog(General(bot))
-  await bot.add_cog(Music(bot))
+#  await bot.add_cog(Music(bot))
   await bot.add_cog(Automod(bot))
   await bot.add_cog(Welcomer(bot))
   await bot.add_cog(Fun(bot))

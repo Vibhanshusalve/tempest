@@ -15,9 +15,9 @@ Github: https://github.com/sonujana26/Discord-AI-Chatbot
 
 TRIGGER:
   - chatbot
-  - olympus
+  - tempest
   - $
-  - olympus-ai
+  - tempest-ai
   - soniye 
 
 AUTO_SHARDING: true
@@ -26,7 +26,7 @@ DISABLE_PRESENCE: false
 PRESENCES:
   - How can I assist you?
   - Currently in {guild_count} guilds
-  - Support at https://discord.gg/olympusop
+  - Support at https://discord.gg/tempestop
 
 
 BLACKLIST_WORDS: #changed to cogs/imagine.py

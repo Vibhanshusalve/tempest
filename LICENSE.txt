@@ -1,16 +1,16 @@
-🛡️ Olympus Bot License Agreement
+🛡️ Tempest Bot License Agreement
 
 By using or modifying this source code, you agree to the following terms:
 
-1. Commercial Use: ❌ Not allowed without paid license from Olympus Team.
+1. Commercial Use: ❌ Not allowed without paid license from Tempest Team.
 2. Redistribution: ❌ Forbidden. Do not host this code elsewhere.
 3. Modification: ❌ Not allowed unless licensed.
 4. Patents/Derivatives: ❌ No rights to publish forks under any name.
-5. Privacy Terms: You must accept the EULA and Privacy Policy provided by Olympus Devs.
+5. Privacy Terms: You must accept the EULA and Privacy Policy provided by Tempest Devs.
 
-To purchase a license or get permissions, contact the Olympus support server:
+To purchase a license or get permissions, contact the Tempest support server:
 https://discord.gg/odx
 
 Violation of these terms may lead to DMCA takedown.
 
-© 2025 Olympus Development — All rights reserved.
+© 2025 Tempest Federation — All rights reserved.

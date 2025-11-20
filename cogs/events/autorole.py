@@ -4,13 +4,13 @@ import aiosqlite
 import asyncio
 import logging
 from discord.ext import commands
-from core import Olympus, Cog
+from core import Tempest, Cog
 
 DATABASE_PATH = 'db/autorole.db'
 logger = logging.getLogger(__name__)
 
 class Autorole2(Cog):
-    def __init__(self, bot: Olympus):
+    def __init__(self, bot: Tempest):
         self.bot = bot
         self.headers = {"Authorization": f"Bot {self.bot.http.token}"}
 
@@ -41,7 +41,7 @@ class Autorole2(Cog):
             role = member.guild.get_role(role_id)
             if role:
                 try:
-                    await member.add_roles(role, reason="Olympus Autoroles")
+                    await member.add_roles(role, reason="Tempest Autoroles")
                 except discord.Forbidden:
                     print(f"Bot lacks permissions to add role in a guild during Autorole Event .")
                 except discord.HTTPException as e:
@@ -51,11 +51,11 @@ class Autorole2(Cog):
                             retry_after = float(retry_after)
                             print(f"(Autorole) Rate limit encountered. Retrying after {retry_after} seconds.")
                             await asyncio.sleep(retry_after)
-                            await member.add_roles(role, reason="Olympus Autoroles")
+                            await member.add_roles(role, reason="Tempest Autoroles")
                 except discord.errors.RateLimited as e:
                     print(f"Rate limit encountered: {e}. Retrying in {e.retry_after} seconds.")
                     await asyncio.sleep(e.retry_after)
-                    await member.add_roles(role, reason="Olympus Autoroles")
+                    await member.add_roles(role, reason="Tempest Autoroles")
                 except Exception as e:
                     logger.error(f"Unexpected error in Autorole: {e}")
 

@@ -1,11 +1,11 @@
 import discord
-from core import Olympus, Cog
+from core import Tempest, Cog
 from discord.ext import commands
 import aiosqlite
 from datetime import datetime, timedelta
 
 class AutoBlacklist(Cog):
-    def __init__(self, client: Olympus):
+    def __init__(self, client: Tempest):
         self.client = client
         self.spam_cd_mapping = commands.CooldownMapping.from_cooldown(5, 5, commands.BucketType.member)
         self.spam_command_mapping = commands.CooldownMapping.from_cooldown(6, 10, commands.BucketType.member)
@@ -26,7 +26,7 @@ class AutoBlacklist(Cog):
                     ''', (guild_id, timestamp))
                     if channel:
                         embed = discord.Embed(
-                            title="<a:olympus_WarnFlash:1272569018183843874> Guild Blacklisted",
+                            title="⚠️ Guild Blacklisted",
                             description=(
                                 f"This guild has been blacklisted due to spamming or automation. "
                                 f"If you believe this is a mistake, please contact our [Support Server](https://discord.com/invite/odx) with any proof if possible."
@@ -84,7 +84,7 @@ class AutoBlacklist(Cog):
                 
                 await self.add_to_blacklist(guild_id=guild_id, channel=message.channel)
                 embed = discord.Embed(
-                    title="<a:olympus_WarnFlash:1272569018183843874> Guild Blacklisted",
+                    title="⚠️ Guild Blacklisted",
                     description=(
                         f"The guild has been blacklisted for excessive command usage. "
                         f"If you believe this is a mistake, please contact our [Support Server](https://discord.com/invite/odx)."
@@ -107,7 +107,7 @@ class AutoBlacklist(Cog):
                 if message.content in (f'<@{self.bot_user_id}>', f'<@!{self.bot_user_id}>'):
                     await self.add_to_blacklist(user_id=message.author.id)
                     embed = discord.Embed(
-                        title="<a:olympus_WarnFlash:1272569018183843874> User Blacklisted",
+                        title="⚠️ User Blacklisted",
                         description=f"**{message.author.mention} has been blacklisted for repeatedly mentioning me. If you believe this is a mistake, please contact our [Support Server](https://discord.com/invite/odx) with any proof if possible.**",
                         color=0x000000
                     )
@@ -139,7 +139,7 @@ class AutoBlacklist(Cog):
 
                 await self.add_to_blacklist(user_id=ctx.author.id)
                 embed = discord.Embed(
-                    title="<a:olympus_WarnFlash:1272569018183843874> User Blacklisted",
+                    title="⚠️ User Blacklisted",
                     description=f"**{ctx.author.mention} has been blacklisted for spamming commands. If you believe this is a mistake, please contact our [Support Server](https://discord.com/invite/odx) with any proof if possible.**",
                     color=0x000000
                 )
