@@ -59,7 +59,7 @@ class Tempest(commands.AutoShardedBot):
         await self.change_presence(status=discord.Status.do_not_disturb,
                                    activity=discord.Activity(
                                        type=discord.ActivityType.playing,
-                                       name='$help | .gg/odx'))
+                                       name='~help | .gg/odx'))
 
     async def send_raw(self, channel_id: int, content: str,
                        **kwargs) -> typing.Optional[discord.Message]:
@@ -101,7 +101,7 @@ class Tempest(commands.AutoShardedBot):
                     row = await cursor.fetchone()
                     if row:
                         #NO user (Dms)
-                        return commands.when_mentioned_or('$', '')(self, message)
+                        return commands.when_mentioned_or('~', '')(self, message)
                     else:
                         #Non Np user (DMs)
                         return commands.when_mentioned_or('')(self, message)

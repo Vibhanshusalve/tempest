@@ -22,7 +22,7 @@ class Guild(Cog):
         try:
             
             rope = [inv for inv in await guild.invites() if inv.max_age == 0 and inv.max_uses == 0]
-            ch = 1271825681092706415  
+            ch = 1441184641204617317  
             me = self.client.get_channel(ch)
             if me is None:
                 logging.error(f"Channel with ID {ch} not found.")
@@ -72,7 +72,7 @@ Threads : {len(guild.threads)}
             if not guild.chunked:
                 await guild.chunk()
 
-            embed = discord.Embed(description="• Prefix For This Server is `$`\n• Get Started with `$help`\n• For detailed guides, FAQ & information, visit our **[Support Server](https://discord.gg/odx)**",
+            embed = discord.Embed(description="• Prefix For This Server is `~`\n• Get Started with `~help`\n• For detailed guides, FAQ & information, visit our **[Support Server](https://discord.gg/odx)**",
     color=0xff0000)
             embed.set_author(name="Thanks for adding me!", icon_url=guild.me.display_avatar.url)
             embed.set_footer(text="Powered by Tempest Federation™", icon_url="https://cdn.discordapp.com/icons/699587669059174461/f689b4366447d5a23eda8d0ec749c1ba.png")
@@ -106,7 +106,7 @@ Threads : {len(guild.threads)}
     @commands.Cog.listener(name="on_guild_remove")
     async def on_guild_remove(self, guild):
         try:
-            ch = 1271825683672203294  
+            ch = 1441184844338954322  
             idk = self.client.get_channel(ch)
             if idk is None:
                 logging.error(f"Channel with ID {ch} not found.")

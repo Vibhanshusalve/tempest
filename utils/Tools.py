@@ -81,7 +81,7 @@ async def getConfig(guildID):
       if row:
         return {"prefix": row[0]}
       else:
-        defaultConfig = {"prefix": "$"}
+        defaultConfig = {"prefix": "~"}
         await updateConfig(guildID, defaultConfig)
         return defaultConfig
 
