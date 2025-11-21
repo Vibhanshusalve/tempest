@@ -12,7 +12,7 @@ class AntiEmojiUpdate(commands.Cog):
     async def fetch_audit_logs(self, guild, action):
         try:
             await asyncio.sleep(random.uniform(0.5, 2.0)) 
-            logs = [entry async for entry in guild.audit_logs(action=action, limit=1, after=datetime.datetime.utcnow() - datetime.timedelta(seconds=3))]
+            logs = [entry async for entry in guild.audit_logs(action=action, limit=1, after=datetime.utcnow() - datetime.timedelta(seconds=3))]
             if logs:
                 return logs[0]
         except discord.HTTPException as e:

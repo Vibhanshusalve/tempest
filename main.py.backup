@@ -1,32 +1,15 @@
 import os
-import sqlite3
 
-# --- Ensure Giveaway table exists before ANY async code runs ---
-os.makedirs("db", exist_ok=True)
-with sqlite3.connect("db/afk.db") as db:
-    db.execute("""
-        CREATE TABLE IF NOT EXISTS Giveaway (
-            guild_id INTEGER,
-            host_id INTEGER,
-            start_time TIMESTAMP,
-            ends_at TIMESTAMP,
-            prize TEXT,
-            winners INTEGER,
-            message_id INTEGER,
-            channel_id INTEGER,
-            PRIMARY KEY (guild_id, message_id)
-        )
-    """)
-    db.commit()
-# --------------------------------------------------------------
-
+# os.system("pip install -r requirements.txt")
 import asyncio
 import traceback
+from threading import Thread
 from datetime import datetime
 
 import aiohttp
 import discord
 from discord.ext import commands
+
 
 from core import Context
 from core.Cog import Cog
@@ -35,27 +18,38 @@ from utils.Tools import *
 from utils.config import *
 
 import jishaku
-import cogs
+import cogs 
 
-# Jishaku env config
+
+
+#Configuring Jishaku behavior
 os.environ["JISHAKU_NO_DM_TRACEBACK"] = "False"
 os.environ["JISHAKU_HIDE"] = "True"
 os.environ["JISHAKU_NO_UNDERSCORE"] = "True"
 os.environ["JISHAKU_FORCE_PAGINATOR"] = "True"
 
+
 client = Tempest()
 tree = client.tree
 TOKEN = os.getenv("TOKEN")
 
+
+
+
 @client.event
 async def on_ready():
     await client.wait_until_ready()
-    print(r"""
+    
+    print("""
+           \033[1;35m
+
         ____   ___  _   _ _   _ 
        / ___| / _ \| \ | | | | |
        \___ \| | | |  \| | | | |
         ___) | |_| | |\  | |_| |
        |____/ \___/|_| \_| \___/ 
+
+       \033[0m
            """)
     print("Loaded & Online!")
     print(f"Logged in as: {client.user}")
@@ -68,6 +62,7 @@ async def on_ready():
     except Exception as e:
         print(e)
 
+
 @client.event
 async def on_command_completion(context: commands.Context) -> None:
     if context.author.id == 1070619070468214824:
@@ -77,10 +72,11 @@ async def on_command_completion(context: commands.Context) -> None:
     split = full_command_name.split("\n")
     executed_command = str(split[0])
     command_logs_channel_id = 1437318990312767600
-
+    
     try:
         log_channel = client.get_channel(command_logs_channel_id)
         if log_channel is None:
+            # Try to fetch if not in cache
             try:
                 log_channel = await client.fetch_channel(command_logs_channel_id)
             except:
@@ -111,9 +107,12 @@ async def on_command_completion(context: commands.Context) -> None:
                     name="➡️ Command Executed In Channel :",
                     value=f"{context.channel.name} | ID: [{context.channel.id}](https://discord.com/channels/{context.guild.id}/{context.channel.id})",
                     inline=False)
+
                 embed.timestamp = discord.utils.utcnow()
                 embed.set_footer(text="Tempest Federation™ ❤️",
                                  icon_url=client.user.display_avatar.url)
+
+                
                 await log_channel.send(embed=embed)
             except Exception as e:
                 print(f'Command log failed: {e}')
@@ -140,22 +139,38 @@ async def on_command_completion(context: commands.Context) -> None:
             except Exception as e:
                 print(f'Command log failed: {e}')
                 traceback.print_exc()
-    except Exception as e:
-        print(f"Error in command logging: {e}")
-        traceback.print_exc()
+
+
+# from flask import Flask
+from threading import Thread
+
+app = Flask(__name__)
+
+
+@app.route('/')
+def home():
+    return f"© Tempest Federation 2024"
+
+
+def run():
+    app.run(host='0.0.0.0', port=8080)
+
+
+def keep_alive():
+    server = Thread(target=run)
+    server.start()
+
+
+keep_alive()
+
 
 async def main():
     async with client:
         os.system("clear")
-        try:
-            await client.load_extension("cogs")
-            print("✓ Cogs loaded successfully")
-        except Exception as e:
-            print(f"✗ Failed to load cogs: {e}")
-            import traceback
-            traceback.print_exc()
+        #await client.load_extension("cogs")
         await client.load_extension("jishaku")
         await client.start(TOKEN)
+
 
 if __name__ == "__main__":
     asyncio.run(main())

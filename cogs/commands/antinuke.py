@@ -1,3 +1,6 @@
+from __future__ import annotations
+from __future__ import annotations
+from __future__ import annotations
 import discord
 from discord.ext import commands
 import aiosqlite
@@ -2257,7 +2260,6 @@ async def setup(bot):
     + Community: https://discord.gg/odx (Tempest Federation)
     + for any queries reach out support or DM me.
 """
-from __future__ import annotations
 import discord
 import aiosqlite
 import logging
@@ -5065,7 +5067,7 @@ class Extra(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
     self.color = 0x000000
-    self.start_time = datetime.datetime.now()
+    self.start_time = datetime.now()
 
   @commands.hybrid_group(name="banner")
   @blacklist_check()
@@ -7732,14 +7734,14 @@ class Giveaway(commands.Cog):
         await self.connection.close()
 
     async def check_for_ended_giveaways(self):
-        await self.cursor.execute("SELECT ends_at, guild_id, message_id, host_id, winners, prize, channel_id FROM Giveaway WHERE ends_at <= ?", (datetime.datetime.now().timestamp(),))
+        await self.cursor.execute("SELECT ends_at, guild_id, message_id, host_id, winners, prize, channel_id FROM Giveaway WHERE ends_at <= ?", (datetime.now().timestamp(),))
         ended_giveaways = await self.cursor.fetchall()
         for giveaway in ended_giveaways:
             await self.end_giveaway(giveaway)
 
     async def end_giveaway(self, giveaway):
         try:
-            current_time = datetime.datetime.now().timestamp()
+            current_time = datetime.now().timestamp()
             guild = self.bot.get_guild(int(giveaway[1]))
             if guild is None:
                 await self.cursor.execute("DELETE FROM Giveaway WHERE message_id = ? AND guild_id = ?", (giveaway[2], giveaway[1]))
@@ -7803,7 +7805,7 @@ class Giveaway(commands.Cog):
 
     @tasks.loop(seconds=5)
     async def GiveawayEnd(self):
-        await self.cursor.execute("SELECT ends_at, guild_id, message_id, host_id, winners, prize, channel_id FROM Giveaway WHERE ends_at <= ?", (datetime.datetime.now().timestamp(),))
+        await self.cursor.execute("SELECT ends_at, guild_id, message_id, host_id, winners, prize, channel_id FROM Giveaway WHERE ends_at <= ?", (datetime.now().timestamp(),))
         ends_raw = await self.cursor.fetchall()
         for giveaway in ends_raw:
             await self.end_giveaway(giveaway)
@@ -7868,12 +7870,12 @@ class Giveaway(commands.Cog):
             await message.delete()
             return
 
-        ends = (datetime.datetime.now().timestamp() + converted)
+        ends = (datetime.now().timestamp() + converted)
 
         embed = discord.Embed(title=f"🎁 {prize}",
                               description=f"Winner(s): **{winners}**\nReact with 🎉 to participate!\nEnds <t:{round(ends)}:R> (<t:{round(ends)}:f>)\n\nHosted by {ctx.author.mention}", color=0x000000)
 
-        ends1 = datetime.datetime.utcnow() + datetime.timedelta(seconds=converted)
+        ends1 = datetime.utcnow() + datetime.timedelta(seconds=converted)
         ends_utc = ends1.replace(tzinfo=datetime.timezone.utc)
 
         embed.timestamp = embed.timestamp = ends_utc
@@ -7886,7 +7888,7 @@ class Giveaway(commands.Cog):
         except:
             pass
 
-        await self.cursor.execute("INSERT INTO Giveaway(guild_id, host_id, start_time, ends_at, prize, winners, message_id, channel_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?)", (ctx.guild.id, ctx.author.id, datetime.datetime.now(), ends, prize, winners, message.id, ctx.channel.id))
+        await self.cursor.execute("INSERT INTO Giveaway(guild_id, host_id, start_time, ends_at, prize, winners, message_id, channel_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?)", (ctx.guild.id, ctx.author.id, datetime.now(), ends, prize, winners, message.id, ctx.channel.id))
 
         await message.add_reaction("🎉")
         await self.connection.commit()
@@ -7927,7 +7929,7 @@ class Giveaway(commands.Cog):
                 return
 
         if message_id is not None:
-            current_time = datetime.datetime.now().timestamp()
+            current_time = datetime.now().timestamp()
             await self.cursor.execute('SELECT ends_at, guild_id, message_id, host_id, winners, prize, channel_id FROM Giveaway WHERE message_id = ?', (int(message_id),))
             re = await self.cursor.fetchone()
 
@@ -7978,7 +7980,7 @@ class Giveaway(commands.Cog):
             if re is None:
                 return await ctx.send(f"The giveaway was not found.")
 
-            current_time = datetime.datetime.now().timestamp()
+            current_time = datetime.now().timestamp()
 
             message = await ctx.fetch_message(ctx.message.reference.message_id)
 
@@ -8356,7 +8358,6 @@ class Help(Cog, name="help"):
 
 
     
-from __future__ import annotations
 import discord
 from discord.ext import commands
 from core import *
@@ -10366,7 +10367,6 @@ class NoPrefix(commands.Cog):
                 role = guild.get_role(1295883122902302771)
                 if role and role in member.roles:
                     await member.remove_roles(role)
-from __future__ import annotations
 from discord.ext import commands
 from discord import *
 from PIL import Image, ImageDraw, ImageFont
@@ -11967,7 +11967,7 @@ class Ship(commands.Cog):
         if user1.id in self.special_users and user2.id in self.special_users:
             rate = 100
         else:
-            now = datetime.datetime.now()
+            now = datetime.now()
             day_seed = (now.day + now.month + now.year) / 3
             seed = (author_id + user_id) / day_seed
             random.seed(seed)

@@ -12,7 +12,7 @@ class AntiChannelDelete(commands.Cog):
         self.cooldowns = {}
 
     def can_fetch_audit(self, guild_id, event_name, max_requests=5, interval=10, cooldown_duration=300):
-        now = datetime.datetime.now()
+        now = datetime.now()
         self.event_limits.setdefault(guild_id, {}).setdefault(event_name, []).append(now)
 
         timestamps = self.event_limits[guild_id][event_name]
