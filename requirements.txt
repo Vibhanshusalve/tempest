@@ -33,3 +33,4 @@ chess
 python-dateutil
 topggpy
 setuptools
+PyNaCl

@@ -6,7 +6,7 @@ from colorama import Fore, Style, init
 #----------Commands---------#
 from .commands.help import Help
 from .commands.general import General
-# from .commands.music import Music
+from .commands.music import Music
 from .commands.automod import Automod
 from .commands.welcome import Welcomer
 from .commands.fun import Fun
@@ -135,7 +135,7 @@ async def setup(bot: Tempest):
   cogs_to_load = [
         Help, General, Moderation, Automod, Welcomer, Fun, Games, Extra,
         Voice, Owner, Customrole, afk, Embed, Media, Ignore,
-        Invcrole, Steal, Ship, Timer,
+        Invcrole, Giveaway, Music, Steal, Ship, Timer,
         Blacklist, Block, Nightmode, AiStuffCog, Badges, Antinuke, Whitelist, 
         Unwhitelist, Extraowner, Map, Blackjack, Slots,
         AutoBlacklist, Guild, Errors, Autorole2, Autorole, greet, AutoResponder,
@@ -149,7 +149,7 @@ async def setup(bot: Tempest):
 
   await bot.add_cog(Help(bot))
   await bot.add_cog(General(bot))
-#  await bot.add_cog(Music(bot))
+  await bot.add_cog(Music(bot))
   await bot.add_cog(Automod(bot))
   await bot.add_cog(Welcomer(bot))
   await bot.add_cog(Fun(bot))
@@ -159,11 +159,11 @@ async def setup(bot: Tempest):
   await bot.add_cog(Owner(bot))
   await bot.add_cog(Customrole(bot))
   await bot.add_cog(afk(bot))
-#   await bot.add_cog(Embed(bot))
+  await bot.add_cog(Embed(bot))
   await bot.add_cog(Media(bot))
   await bot.add_cog(Ignore(bot))
   await bot.add_cog(Invcrole(bot))
-#   await bot.add_cog(Giveaway(bot))
+  await bot.add_cog(Giveaway(bot))
   await bot.add_cog(Steal(bot))
   await bot.add_cog(Ship(bot))
   await bot.add_cog(Timer(bot))
