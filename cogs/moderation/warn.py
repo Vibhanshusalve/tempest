@@ -3883,6 +3883,7 @@ class Warn(commands.Cog):
     @commands.has_permissions(moderate_members=True)
     #@commands.bot_has_permissions(manage_messages=True)
     async def warn(self, ctx, user: discord.Member, *, reason=None):
+        await ctx.defer()
         if user == ctx.author:
             return await ctx.reply("You cannot warn yourself.")
 
@@ -3947,6 +3948,7 @@ class Warn(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(moderate_members=True)
     async def clearwarns(self, ctx, user: discord.Member):
+        await ctx.defer()
         try:
             await self.reset_warns(ctx.guild.id, user.id)
             embed = discord.Embed(description=f"✅ | All warnings have been cleared for **{user}** in this guild.", color=self.color)

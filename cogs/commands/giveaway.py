@@ -7727,6 +7727,18 @@ class Giveaway(commands.Cog):
     async def cog_load(self) -> None:
         self.connection = await aiosqlite.connect(db_path)
         self.cursor = await self.connection.cursor()
+        await self.cursor.execute('''CREATE TABLE IF NOT EXISTS Giveaway (
+                    guild_id INTEGER,
+                    host_id INTEGER,
+                    start_time TIMESTAMP,
+                    ends_at TIMESTAMP,
+                    prize TEXT,
+                    winners INTEGER,
+                    message_id INTEGER,
+                    channel_id INTEGER,
+                    PRIMARY KEY (guild_id, message_id)
+                )''')
+        await self.connection.commit()
         await self.check_for_ended_giveaways() 
         self.GiveawayEnd.start()
 

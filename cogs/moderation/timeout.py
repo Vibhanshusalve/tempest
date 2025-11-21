@@ -3054,6 +3054,7 @@ class Mute(commands.Cog):
     @commands.has_permissions(moderate_members=True)
     @commands.bot_has_permissions(moderate_members=True)
     async def mute(self, ctx, user: discord.Member, time: str = None, *, reason=None):
+        await ctx.defer()
 
         if user.is_timed_out():
             embed = discord.Embed(description="**Requested User is already muted in this server.**", color=self.color)

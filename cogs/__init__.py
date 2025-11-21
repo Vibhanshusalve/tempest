@@ -19,7 +19,7 @@ from .commands.ignore import Ignore
 from .commands.Media import Media
 from .commands.Invc import Invcrole
 from .commands.giveaway import Giveaway
-from .commands.Embed import Embed
+from .commands.Embed import EmbedCog
 from .commands.steal import Steal
 from .commands.ship import Ship
 from .commands.timer import Timer
@@ -134,7 +134,7 @@ from .moderation.snipe import Snipe
 async def setup(bot: Tempest):
   cogs_to_load = [
         Help, General, Moderation, Automod, Welcomer, Fun, Games, Extra,
-        Voice, Owner, Customrole, afk, Embed, Media, Ignore,
+        Voice, Owner, Customrole, afk, EmbedCog, Media, Ignore,
         Invcrole, Giveaway, Music, Steal, Ship, Timer,
         Blacklist, Block, Nightmode, AiStuffCog, Badges, Antinuke, Whitelist, 
         Unwhitelist, Extraowner, Map, Blackjack, Slots,
@@ -159,7 +159,7 @@ async def setup(bot: Tempest):
   await bot.add_cog(Owner(bot))
   await bot.add_cog(Customrole(bot))
   await bot.add_cog(afk(bot))
-  await bot.add_cog(Embed(bot))
+  await bot.add_cog(EmbedCog(bot))
   await bot.add_cog(Media(bot))
   await bot.add_cog(Ignore(bot))
   await bot.add_cog(Invcrole(bot))
