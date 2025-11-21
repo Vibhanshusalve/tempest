@@ -6,7 +6,7 @@ from colorama import Fore, Style, init
 #----------Commands---------#
 from .commands.help import Help
 from .commands.general import General
-# from .commands.music import Music
+from .commands.music import Music
 from .commands.automod import Automod
 from .commands.welcome import Welcomer
 from .commands.fun import Fun
@@ -133,7 +133,7 @@ from .moderation.snipe import Snipe
 
 async def setup(bot: Tempest):
   cogs_to_load = [
-        Help, General, Moderation, Automod, Welcomer, Fun, Games, Extra,
+        Help, General, Music, Moderation, Automod, Welcomer, Fun, Games, Extra,
         Voice, Owner, Customrole, afk, Embed, Media, Ignore,
         Invcrole, Steal, Ship, Timer,
         Blacklist, Block, Nightmode, AiStuffCog, Badges, Antinuke, Whitelist, 
@@ -149,7 +149,7 @@ async def setup(bot: Tempest):
 
   await bot.add_cog(Help(bot))
   await bot.add_cog(General(bot))
-#  await bot.add_cog(Music(bot))
+  await bot.add_cog(Music(bot))
   await bot.add_cog(Automod(bot))
   await bot.add_cog(Welcomer(bot))
   await bot.add_cog(Fun(bot))
