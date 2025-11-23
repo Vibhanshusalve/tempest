@@ -134,6 +134,7 @@ class Ban(commands.Cog):
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
     async def ban(self, ctx, user: discord.User, *, reason=None):
+        await ctx.defer()
 
         member = ctx.guild.get_member(user.id)
         if not member:

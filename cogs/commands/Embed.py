@@ -4177,7 +4177,7 @@ import asyncio
 from utils.Tools import *
 import re
 
-class Embed(commands.Cog):
+class EmbedCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.client = bot

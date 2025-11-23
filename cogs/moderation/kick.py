@@ -344,6 +344,7 @@ class Kick(commands.Cog):
     @commands.bot_has_permissions(kick_members=True)
     @commands.guild_only()
     async def kick_command(self, ctx, member: discord.Member, *, reason: str = None):
+        await ctx.defer()
         reason = reason or "No reason provided"
 
         if member == ctx.author:
