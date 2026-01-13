@@ -144,9 +144,9 @@ olympus-bot/
 - `snipe.py` - Message snipe functionality
 - `topcheck.py` - Top role check system
 
-### 4. Music System (`cogs/commands/music.py.disabled`)
+### 4. Music System (`cogs/commands/music.py`)
 
-**Status**: Currently disabled (`.disabled` extension)
+**Status**: Enabled (requires Lavalink connection)
 
 **Features** (when enabled):
 - Lavalink integration via Wavelink

@@ -10,7 +10,7 @@ from core import Cog, Tempest, Context
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 import io
 import aiohttp
-from typing import cast
+from typing import Dict, Optional, cast
 import asyncio
 from utils.Tools import *
 track_histories = {}
@@ -185,12 +185,10 @@ class MusicControlView(View):
             player = self.player 
             vc = self.ctx.voice_client
 
-            if player.playing:
-                await player.stop()
-
-            await vc.queue.put_wait(previous_track)
-
+            await player.play(previous_track, replace=True)
             await interaction.response.send_message(f"Playing previous track: `{previous_track.title}`.")
+            if vc:
+                await self.ctx.cog.display_player_embed(vc, previous_track, self.ctx)
         else:
             await interaction.response.send_message("No previous track available.", ephemeral=True)
 
@@ -199,13 +197,11 @@ class MusicControlView(View):
         if self.player.paused:
             await self.player.pause(False)
 
-            await self.player.channel.edit(status=f"🎵 Playing: {self.player.current.title}")
             button.emoji = "⏸️" 
             await interaction.response.edit_message(view=self)
 
         elif self.player.playing:
             await self.player.pause(True)
-            await self.player.channel.edit(status=f"🎵 Paused: {self.player.current.title}")
             button.emoji = "▶️"
             await interaction.response.edit_message(view=self)
 
@@ -232,7 +228,7 @@ class MusicControlView(View):
 
     @discord.ui.button(emoji="🔀", style=discord.ButtonStyle.secondary)
     async def shuffle_button(self, interaction: discord.Interaction, button: Button):
-        if self.player.queue:
+        if not self.player.queue.is_empty:
             random.shuffle(self.player.queue)
             await interaction.response.send_message(f"Queue shuffled by **{interaction.user.display_name}**.")
         else:
@@ -251,10 +247,6 @@ class MusicControlView(View):
     @discord.ui.button(emoji="⏸️", style=discord.ButtonStyle.secondary)
     async def stop_button(self, interaction: discord.Interaction, button: Button):
         if self.player:
-            voice_channel = self.player.channel
-            if voice_channel:
-                await voice_channel.edit(status=None)
-
             await self.player.disconnect()
             await interaction.response.send_message(f"Stopped and disconnected by **{interaction.user.display_name}**.")
         else:
@@ -284,9 +276,9 @@ class Music(commands.Cog):
         self.client = client
         self.client.loop.create_task(self.connect_nodes())
         self.client.loop.create_task(self.monitor_inactivity())
-        
-        self.inactivity_timeout = 120 
-        self.player_inactivity = {}  
+
+        self.inactivity_timeout = 120
+        self.player_inactivity: Dict[int, asyncio.Task[None]] = {}
 
     async def monitor_inactivity(self):
         while True:
@@ -294,46 +286,62 @@ class Music(commands.Cog):
                 await self.check_inactivity(guild.id) 
             await asyncio.sleep(60) 
 
-    async def check_inactivity(self, guild_id):
-        guild = self.client.get_guild(guild_id)
-        if not guild:
+    def _get_voice_client(self, guild_id: int) -> Optional[wavelink.Player]:
+        for vc in self.client.voice_clients:
+            if vc.guild.id == guild_id:
+                return vc
+        return None
+
+    def _cancel_inactivity_task(self, guild_id: int):
+        task = self.player_inactivity.pop(guild_id, None)
+        if task and not task.done():
+            task.cancel()
+
+    async def check_inactivity(self, guild_id: int):
+        player = self._get_voice_client(guild_id)
+        channel = getattr(player, "channel", None)
+
+        if not player or not channel or not player.playing:
+            self._cancel_inactivity_task(guild_id)
             return
 
-        player = None
-        for vc in self.client.voice_clients:
-            if vc.guild.id == guild.id:
-                player = vc
-                break
+        if len(channel.members) == 1:
+            task = self.player_inactivity.get(guild_id)
+            if not task or task.done():
+                self.player_inactivity[guild_id] = self.client.loop.create_task(self.inactivity_timer(player))
+        else:
+            self._cancel_inactivity_task(guild_id)
 
-        if player and player.playing and len(player.channel.members) == 1:
-            await self.inactivity_timer(guild)
-
-    async def inactivity_timer(self, guild):
-        await asyncio.sleep(self.inactivity_timeout)
-        if len(guild.voice_channels[0].members) == 1:
-            player = None
-            for vc in self.client.voice_clients:
-                if vc.guild.id == guild.id:
-                    player = vc
-                    break
-            if player:
+    async def inactivity_timer(self, player: wavelink.Player):
+        guild_id = player.guild.id
+        task = asyncio.current_task()
+        try:
+            await asyncio.sleep(self.inactivity_timeout)
+            channel = getattr(player, "channel", None)
+            if channel and len(channel.members) == 1:
                 await player.disconnect(force=True)
                 try:
-                    ended = discord.Embed(description="Bot has been disconnected due to inactivity (being idle in Voice Channel) for more than 2 minutes." , color=0xFF0000)
+                    ended = discord.Embed(
+                        description="Bot has been disconnected due to inactivity (being idle in Voice Channel) for more than 2 minutes.",
+                        color=0xFF0000,
+                    )
                     ended.set_author(name="Inactive Timeout", icon_url=self.client.user.avatar.url)
                     ended.set_footer(text="Thanks for choosing Tempest!")
-                    support = Button(label='Support',
-                                 style=discord.ButtonStyle.link,
-                        url=f'https://discord.gg/odx')
-                    vote = Button(label='Vote',
-                                 style=discord.ButtonStyle.link,
-                        url=f'https://top.gg/bot/1144179659735572640/vote')
+                    support = Button(label='Support', style=discord.ButtonStyle.link, url='https://discord.gg/odx')
+                    vote = Button(label='Vote', style=discord.ButtonStyle.link, url='https://top.gg/bot/1144179659735572640/vote')
                     view = View()
                     view.add_item(support)
                     view.add_item(vote)
-                    await player.ctx.channel.send(embed=ended, view=view)
-                except:
+                    ctx_channel = getattr(getattr(player, "ctx", None), "channel", None)
+                    if ctx_channel:
+                        await ctx_channel.send(embed=ended, view=view)
+                except Exception:
                     pass
+        except asyncio.CancelledError:
+            pass
+        finally:
+            if self.player_inactivity.get(guild_id) is task:
+                self.player_inactivity.pop(guild_id, None)
 
     async def connect_nodes(self) -> None:
         nodes = [wavelink.Node(uri="http://localhost:2333", password="youshallnotpass", identifier="Main")]
@@ -393,7 +401,7 @@ class Music(commands.Cog):
 
     async def on_track_end(self, payload: wavelink.TrackEndEventPayload):
         player = payload.player
-        if not player.queue:
+        if player.queue.is_empty:
             if player.queue.mode == wavelink.QueueMode.loop:
                 await player.play(payload.track)
                 #await self.display_player_embed(player, payload.track, player.ctx)
@@ -404,7 +412,9 @@ class Music(commands.Cog):
                 if player.current:
                     await self.display_player_embed(player, player.current, player.ctx, autoplay=True)
                 else:
-                    player.ctx.send("No suitable track found for autoplay.")
+                    ctx = getattr(player, "ctx", None)
+                    if ctx:
+                        await ctx.send("No suitable track found for autoplay.")
 
 
             else:
@@ -458,12 +468,13 @@ class Music(commands.Cog):
             return
 
         if isinstance(tracks, wavelink.Playlist):
-            await vc.queue.put_wait(tracks.tracks)
+            for track in tracks.tracks:
+                await vc.queue.put_wait(track)
             await ctx.send(embed=discord.Embed(description=f"• Added playlist [{tracks.name}](https://discord.gg/odx) with **{len(tracks.tracks)} songs** to the queue.", color=0x000000))
             if not vc.playing:
-                track = await vc.queue.get_wait()
-                await vc.play(track)
-                await self.display_player_embed(vc, track, ctx)
+                next_track = await vc.queue.get_wait()
+                await vc.play(next_track)
+                await self.display_player_embed(vc, next_track, ctx)
         else:
             track = tracks[0]
             await vc.queue.put_wait(track)
@@ -621,7 +632,7 @@ class Music(commands.Cog):
         length_str = f"{int(length // 60)}:{int(length % 60):02}"
 
 
-        queue_length = len(vc.queue) if vc.queue else 0
+        queue_length = len(vc.queue)
 
 
         if "spotify" in track.uri:
@@ -708,7 +719,6 @@ class Music(commands.Cog):
 
         if vc and vc.playing and not vc.paused:
             await vc.pause(True)
-            await vc.channel.edit(status=f"🎵 Paused: {vc.current.title}")
             await ctx.send(embed=discord.Embed(description=f"Paused by {ctx.author.mention}.", color=0x000000))
         else:
             await ctx.send(embed=discord.Embed(description="⚠️ Nothing is playing or already paused.", color=0xFF0000))
@@ -729,7 +739,6 @@ class Music(commands.Cog):
 
         if vc and vc.paused:
             await vc.pause(False)
-            await vc.channel.edit(status=f"🎵 Playing: {vc.current.title}")
             await ctx.send(embed=discord.Embed(description=f"Resumed by {ctx.author.mention}.", color=0x000000))
         else:
             await ctx.send(embed=discord.Embed(description="Player is not paused.", color=0xFF0000))
@@ -773,7 +782,7 @@ class Music(commands.Cog):
             await ctx.send(embed=discord.Embed(description="⚠️ You need to be in the same voice channel as me to use this command.", color=0xFF0000))
             return
 
-        if vc and vc.queue:
+        if vc and not vc.queue.is_empty:
             random.shuffle(vc.queue)
             await ctx.send(embed=discord.Embed(description=f"Queue shuffled by {ctx.author.mention}.", color=0x000000))
         else:
@@ -795,7 +804,6 @@ class Music(commands.Cog):
             return
 
         if vc and player:
-            await vc.channel.edit(status=None)
             vc.queue.clear()
             await vc.disconnect(force=True)
             await ctx.send(embed=discord.Embed(description=f"Stopped and queue cleared by {ctx.author.mention}.", color=0x000000))
@@ -833,7 +841,7 @@ class Music(commands.Cog):
     async def queue(self, ctx: commands.Context):
         vc = ctx.voice_client
 
-        if not vc or not vc.queue or vc.queue.is_empty:
+        if not vc or vc.queue.is_empty:
             await ctx.send(embed=discord.Embed(description="⚠️ The queue is currently empty.", color=0x000000))
             return
 
@@ -859,7 +867,7 @@ class Music(commands.Cog):
     async def clearqueue(self, ctx: commands.Context):
         vc = ctx.voice_client
 
-        if not vc or not vc.queue or vc.queue.is_empty:
+        if not vc or vc.queue.is_empty:
             await ctx.send(embed=discord.Embed(description="⚠️ No Queue to clear.", color=0xFF0000))
             return
 
@@ -867,7 +875,7 @@ class Music(commands.Cog):
             await ctx.send(embed=discord.Embed(description="⚠️ You need to be in the same voice channel as me to use this command.", color=0xFF0000))
             return
 
-        if vc and vc.queue:
+        if vc and not vc.queue.is_empty:
             vc.queue.clear()
             await ctx.send(embed=discord.Embed(description="Queue has been cleared.", color=0x1DB954))
         else:
@@ -955,10 +963,6 @@ class Music(commands.Cog):
         track = player.current
         guild_id = player.guild.id
 
-        voice_channel = player.channel
-        if voice_channel:
-            await voice_channel.edit(status=f"🎵 Playing: {track.title}")  # type: ignore
-
         if guild_id not in track_histories:
             track_histories[guild_id] = []
 
@@ -972,10 +976,6 @@ class Music(commands.Cog):
     @commands.Cog.listener()
     async def on_wavelink_track_end(self, payload: wavelink.TrackEndEventPayload):
         player = payload.player
-        voice_channel = player.channel
-
-        if voice_channel:
-            await voice_channel.edit(status=None)  # type: ignore
         await self.on_track_end(payload)
 
     

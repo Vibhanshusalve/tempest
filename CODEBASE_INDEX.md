@@ -20,7 +20,7 @@
 | `fun.py` | Entertainment commands, memes, images |
 | `Games.py` | Game command wrappers |
 | `moderation.py` | Moderation command group |
-| `music.py.disabled` | Music commands (currently disabled) |
+| `music.py` | Music commands (Lavalink-powered player) |
 | `voice.py` | Voice channel management |
 | `afk.py` | AFK system commands |
 | `autorole.py` | Auto-role configuration |

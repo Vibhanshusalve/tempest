@@ -100,12 +100,12 @@ Tempest is a powerful, easy-to-use Discord bot designed to enhance your server e
    - You can change the default prefix in `utils/Tools.py` (line 84)
    - Server admins can change the prefix per server using the `prefix` command
 
-3. **For Music (Optional):**  
+3. **For Music:**  
    - A public Lavalink is used by default
    - Get a list of public lavalinks available [here](https://lavalinks-list.vercel.app/)
    - For better audio quality, it is recommended to set up your private Lavalink v4
-   - Update your Lavalink URL, password, and other configurations in `cogs/commands/music.py.disabled` (if you enable music)
-   - **Note:** Music commands are currently disabled. To enable, rename `music.py.disabled` to `music.py` and configure Lavalink settings.
+   - Update your Lavalink URL, password, and other configurations in `cogs/commands/music.py`
+   - Make sure your Lavalink server settings also match `application.yml`
 
 4. **Logging & Notifications:**  
    - **Command Logs:** Update the channel ID in `main.py` (line 74):
